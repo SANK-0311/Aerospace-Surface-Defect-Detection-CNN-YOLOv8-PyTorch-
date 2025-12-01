@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_name }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Aerospace Surface Defect Detection</h1>
+            <p>Upload aircraft surface images to detect the defects</p>
+        </header>
+
+        <main>
+            <div class="upload-section">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="file-input-wrapper">
+                        <input type="file" id="fileInput" accept="image/*" required>
+                        <label for="fileInput" id="fileLabel">
+                            <span>Choose Image</span>
+                            <span id="fileName">No file selected</span>
+                        </label>
+                    </div>
+                    <button type="submit" id="uploadBtn">Analyze Defects</button>
+                </form>
+            </div>
+
+            <div id="loadingSpinner" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analyzing image...</p>
+            </div>
+
+            <div id="resultsSection" class="results-section" style="display: none;">
+                <h2>Detection Results</h2>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total Defects:</span>
+                        <span class="stat-value" id="totalDefects">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Inference Time:</span>
+                        <span class="stat-value" id="inferenceTime">0s</span>
+                    </div>
+                </div>
+
+                <div class="image-container">
+                    <img id="resultImage" src="" alt="Annotated Result">
+                </div>
+
+                <div class="detections-list">
+                    <h3>Detected Defects</h3>
+                    <table id="detectionsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Class</th>
+                                <th>Confidence</th>
+                                <th>Location (x1, y1, x2, y2)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detectionsBody">
+                        </tbody>
+                    </table>
+                    <div id="noDetections" style="display: none;">
+                        <p>✅ No defects detected in this image</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorSection" class="error-section" style="display: none;">
+                <p id="errorMessage"></p>
+            </div>
+        </main>
+
+        <footer>
+            <p>Detectable Classes: 
+                {% for class_name in classes %}
+                    <span class="class-badge">{{ class_name }}</span>
+                {% endfor %}
+            </p>
+        </footer>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
